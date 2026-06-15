@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cardiovascular Disease Risk Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h1>Cardiovascular Disease Prediction and Risk Analysis</h1>
+    <div class="container">
+        <div class="column">
+            <h2>Patient Information</h2>
+            <form method="POST">
+                <label>Age (years)</label>
+                <input type="number" name="age_years" min="30" max="65" placeholder="30-65" step="1"
+                    value="{{ request.form.get('age_years', '') }}" required>
+
+                <label>Gender</label>
+                <select name="gender" required>
+                    <option value="" disabled {% if not request.form.get('gender') %}selected{% endif %}>Select Gender
+                    </option>
+                    <option value="1" {% if request.form.get('gender')=='1' %}selected{% endif %}>Female (1)</option>
+                    <option value="2" {% if request.form.get('gender')=='2' %}selected{% endif %}>Male (2)</option>
+                </select>
+
+                <label>Height (cm)</label>
+                <input type="number" name="height" min="150" max="180" placeholder="150-180" step="1"
+                    value="{{ request.form.get('height', '') }}" required>
+
+                <label>Weight (kg)</label>
+                <input type="number" name="weight" min="52" max="107" placeholder="52-107" step="0.1"
+                    value="{{ request.form.get('weight', '') }}" required>
+
+                <label>Diastolic Blood Pressure (ap_lo)</label>
+                <input type="number" name="ap_lo" min="60" max="100" placeholder="60-100" step="1"
+                    value="{{ request.form.get('ap_lo', '') }}" required>
+
+                <label>Systolic Blood Pressure (ap_hi)</label>
+                <input type="number" name="ap_hi" min="100" max="170" placeholder="100-170" step="1"
+                    value="{{ request.form.get('ap_hi', '') }}" required>
+
+                <label>Cholesterol Level</label>
+                <select name="cholesterol" required>
+                    <option value="" disabled {% if not request.form.get('cholesterol') %}selected{% endif %}>Select
+                        Level</option>
+                    <option value="1" {% if request.form.get('cholesterol')=='1' %}selected{% endif %}>Normal (1)
+                    </option>
+                    <option value="2" {% if request.form.get('cholesterol')=='2' %}selected{% endif %}>Above Normal (2)
+                    </option>
+                    <option value="3" {% if request.form.get('cholesterol')=='3' %}selected{% endif %}>Well Above Normal
+                        (3)</option>
+                </select>
+
+                <label>Smoking</label>
+                <select name="smoke" required>
+                    <option value="" disabled {% if not request.form.get('smoke') %}selected{% endif %}>Select Option
+                    </option>
+                    <option value="1" {% if request.form.get('smoke')=='1' %}selected{% endif %}>Yes (1)</option>
+                    <option value="0" {% if request.form.get('smoke')=='0' %}selected{% endif %}>No (0)</option>
+                </select>
+
+                <label>Alcohol Consumption</label>
+                <select name="alco" required>
+                    <option value="" disabled {% if not request.form.get('alco') %}selected{% endif %}>Select Option
+                    </option>
+                    <option value="1" {% if request.form.get('alco')=='1' %}selected{% endif %}>Yes (1)</option>
+                    <option value="0" {% if request.form.get('alco')=='0' %}selected{% endif %}>No (0)</option>
+                </select>
+
+                <label>Glucose Level</label>
+                <select name="gluc" required>
+                    <option value="" disabled {% if not request.form.get('gluc') %}selected{% endif %}>Select Level
+                    </option>
+                    <option value="1" {% if request.form.get('gluc')=='1' %}selected{% endif %}>Normal (1)</option>
+                    <option value="2" {% if request.form.get('gluc')=='2' %}selected{% endif %}>Above Normal (2)
+                    </option>
+                    <option value="3" {% if request.form.get('gluc')=='3' %}selected{% endif %}>Well Above Normal (3)
+                    </option>
+                </select>
+
+
+
+                <label>Physical Activity</label>
+                <select name="active" required>
+                    <option value="" disabled {% if not request.form.get('active') %}selected{% endif %}>Select Option
+                    </option>
+                    <option value="1" {% if request.form.get('active')=='1' %}selected{% endif %}>Active (1)</option>
+                    <option value="0" {% if request.form.get('active')=='0' %}selected{% endif %}>Inactive (0)</option>
+                </select>
+
+                <button type="submit">Analyze Risk</button>
+                <button type="button" onclick="window.location.href=window.location.pathname">Reset</button>
+            </form>
+
+
+        </div>
+        <div class="column">
+            <h2>Risk Analysis Results</h2>
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+
+            {% if result %}
+            <div class="result {{ 'high-risk' if result == 'High Risk' else 'low-risk' }}">
+                <h3>Result: {{ result }}</h3>
+                <p>Risk Probability: {{ risk_probability }}</p>
+            </div>
+
+            <h3>Risk Factor Analysis</h3>
+            {% if importance_data %}
+            <canvas id="shapChart"></canvas>
+            <p>These features contribute most to your cardiovascular risk :</p>
+            <ul>
+                {% for feature, importance in importance_data %}
+                <li>{{ feature }}: {{ importance }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No risk factors found.</p>
+            {% endif %}
+
+            <h3>Recommendations</h3>
+            <ul>
+                {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    {% if chart_data %}
+    <script>
+        const ctx = document.getElementById('shapChart').getContext('2d');
+        const data = {{ chart_data | safe }};
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#F44336', '#9C27B0', '#3F51B5', '#FFEB3B', '#E91E63', '#00BCD4']
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+    {% endif %}
+
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+
+    <div class="footer">
+        Powered by Shahid Nawaz, M.Atif, Talal Shahid, and M.Mujeeb
+    </div>
+</body>
+
+</html>

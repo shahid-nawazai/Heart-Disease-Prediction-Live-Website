@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;   
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    padding: 40px 20px; 
+
+}
+
+        .register-container {padding: 35px;
+                             width: 330px;
+                             border-radius: 10px;
+                             background: #fff; }
+
+        input {width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px; }
+
+        button {      width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #4e73df;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;}
+  
+      h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+      p {
+            text-align: center;
+            font-size: 14px;
+        }
