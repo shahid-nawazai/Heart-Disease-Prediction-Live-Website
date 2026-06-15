@@ -1,7 +1,7 @@
 name: Sync to Hugging Face Spaces
 on:
   push:
-    branches: [main, master] # Triggers regardless of whether your GitHub branch is named main or master
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -9,13 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          lfs: true
+        uses: actions/checkout@v6 # Updated checkout version for better performance
 
       - name: Push to Hub
-        uses: huggingface/hub-sync@v0.1.3
+        uses: huggingface/hub-sync@v0.1.0 # <-- Change this version to v0.1.0 here!
         with:
           github_repo_id: shahid-nawazai/Heart-Disease-Prediction-Live-Website
           huggingface_repo_id: shahid-nawazai/heart-disease-prediction
