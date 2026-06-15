@@ -2,7 +2,7 @@
 title: Heart Disease Prediction
 emoji: 🫀
 colorFrom: red
-colorTo: maroon
+colorTo: blue
 sdk: docker
 app_port: 7860
 pinned: false
