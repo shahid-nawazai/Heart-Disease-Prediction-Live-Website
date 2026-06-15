@@ -1,7 +1,7 @@
 name: Sync to Hugging Face Spaces
 on:
   push:
-    branches: [main]
+    branches: [main, master] # Triggers regardless of whether your GitHub branch is named main or master
   workflow_dispatch:
 
 jobs:
