@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6 # Updated checkout version for better performance
+        uses: actions/checkout@v6 
 
       - name: Push to Hub
-        uses: huggingface/hub-sync@v0.1.0 # <-- Change this version to v0.1.0 here!
+        uses: huggingface/hub-sync@v0.1.0
         with:
           github_repo_id: shahid-nawazai/Heart-Disease-Prediction-Live-Website
           huggingface_repo_id: shahid-nawazai/heart-disease-prediction
