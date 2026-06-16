@@ -4,10 +4,6 @@ body {
     margin: 0 auto;
     padding: 20px;
     background-color: #F4F7F9;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    box-sizing: border-box;
 }
 
 h1 {
@@ -80,7 +76,7 @@ ul {
     padding: 15px;
     background: #E9ECEF;
     font-size: 0.8rem;
-    margin-top: auto;
+    margin-top: 40px;
 }
 
 .logout {
@@ -95,7 +91,7 @@ a {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .container {
         flex-direction: column;
     }
