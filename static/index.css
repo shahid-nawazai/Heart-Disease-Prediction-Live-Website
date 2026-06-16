@@ -17,6 +17,7 @@ h1 {
 .container {
     display: flex;
     gap: 20px;
+    margin-bottom: 40px;
 }
 
 .column {
@@ -90,7 +91,7 @@ a {
     font-weight: bold;
 }
 
-
+/* Responsiveness for mobile screen widths */
 @media (max-width: 1024px) {
     .container {
         flex-direction: column;
